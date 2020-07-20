@@ -45,4 +45,11 @@ steps:
   displayName: 'Publish Artiafct: drop'
   inputs:
     artifactName: 'AzureDemoPipeline'
-    
+#Deploy a Web Deploy package (ASP.NET)
+- task: AzureWebApp@1
+  displayName: Azure Web App Deploy
+  inputs:
+    appType: webApp
+    azureSubscription: 'Test service connection'
+    appName: 'test-lab'
+    package: $(Build.ArtifactStagingDirectory)/*.zip
