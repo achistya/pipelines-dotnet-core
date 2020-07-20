@@ -19,8 +19,30 @@ steps:
   inputs:
     command: restore
     projects: '**/*.csproj'
+# Build
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+# Test
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+   command: test
+   projects: '**/*.csproj'
+   arguments: '--configuration $(buildConfiguration)'
+# Publish Artifacts
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+   command: publish
+   publishWebProjects: false
+   projects: '**/*.csproj'
+   arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+# Upload Artifacts
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artiafct: drop'
+  inputs:
+    artifactName: 'AzureDemoPipeline'
+    
